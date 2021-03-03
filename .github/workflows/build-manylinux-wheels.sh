@@ -12,6 +12,7 @@ fi
 
 # Temporary workaround for https://github.com/actions/runner/issues/781
 #if [$(uname -m) == x86_64]; then
+echo $LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
 #fi
 
