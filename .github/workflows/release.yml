@@ -12,7 +12,12 @@ on:
 jobs:
   
   build-sdist:
-    runs-on: ubuntu-latest
+    name: Build wheels on ${{ matrix.os }}, ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        arch: [aarch64]
 
     steps:
     - uses: actions/checkout@v2
@@ -29,6 +34,9 @@ jobs:
       run: |
         pip install -U setuptools wheel pip
         python setup.py sdist
+        
+    - uses: docker/setup-qemu-action@v1
+      name: Set up QEMU
 
     - uses: actions/upload-artifact@v1
       with:
@@ -40,7 +48,8 @@ jobs:
     strategy:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
-        os: [ubuntu-16.04, macos-latest, windows-latest]
+        os: [ubuntu-18.04]
+        arch: [aarch64]
         exclude:
           # Python 3.5 is unable to properly
           # find the recent VS tooling
@@ -62,6 +71,9 @@ jobs:
     - name: Install Python Deps
       run: |
         python -m pip install --upgrade setuptools pip wheel
+    
+    - uses: docker/setup-qemu-action@v1
+      name: Set up QEMU
 
     - name: Test
       run: |
@@ -69,7 +81,7 @@ jobs:
 
     - name: Build Wheels (linux)
       if: startsWith(matrix.os, 'ubuntu')
-      uses: docker://quay.io/pypa/manylinux1_x86_64
+      uses: docker://quay.io/pypa/manylinux2014_aarch64
       env:
         PYTHON_VERSION: ${{ matrix.python-version }}
       with:
