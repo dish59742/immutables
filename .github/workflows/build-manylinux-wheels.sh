@@ -22,6 +22,7 @@ PIP="/opt/python/${ML_PYTHON_VERSION}/bin/pip"
 cd "${GITHUB_WORKSPACE}"
 make clean
 "${PYTHON}" setup.py bdist_wheel
+ls dist/
 
 # Bundle external shared libraries into the wheels.
 for whl in "${GITHUB_WORKSPACE}"/dist/*.whl; do
