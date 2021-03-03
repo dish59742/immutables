@@ -11,7 +11,9 @@ if [ "${PY_MAJOR}" -lt "4" -a "${PY_MINOR}" -lt "8" ]; then
 fi
 
 # Temporary workaround for https://github.com/actions/runner/issues/781
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+if [arch==x86_64]; then
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+fi
 
 # Compile wheels
 PYTHON="/opt/python/${ML_PYTHON_VERSION}/bin/python"
@@ -23,6 +25,7 @@ make clean
 
 # Bundle external shared libraries into the wheels.
 for whl in "${GITHUB_WORKSPACE}"/dist/*.whl; do
+    ls dist/
     auditwheel repair $whl -w "${GITHUB_WORKSPACE}"/dist/
     rm "${GITHUB_WORKSPACE}"/dist/*-linux_*.whl
 done
