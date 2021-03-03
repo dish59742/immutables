@@ -11,9 +11,9 @@ if [ "${PY_MAJOR}" -lt "4" -a "${PY_MINOR}" -lt "8" ]; then
 fi
 
 # Temporary workaround for https://github.com/actions/runner/issues/781
-if [$(uname -m) == x86_64]; then
-    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
-fi
+#if [$(uname -m) == x86_64]; then
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+#fi
 
 # Compile wheels
 PYTHON="/opt/python/${ML_PYTHON_VERSION}/bin/python"
