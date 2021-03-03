@@ -23,7 +23,7 @@ jobs:
           __version__\s*=\s*(?:['"])([[:PEP440:]])(?:['"])
 
     - name: Stop if not approved
-      if: steps.checkver.outputs.approved != 'true'
+      if: steps.checkver.outputs.approved == 'true'
       run: |
         echo ::error::PR is not approved yet.
         exit 1
