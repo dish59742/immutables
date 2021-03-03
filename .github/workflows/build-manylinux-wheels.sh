@@ -11,7 +11,7 @@ if [ "${PY_MAJOR}" -lt "4" -a "${PY_MINOR}" -lt "8" ]; then
 fi
 
 # Temporary workaround for https://github.com/actions/runner/issues/781
-if [arch==x86_64]; then
+if [$arch==x86_64]; then
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
 fi
 
