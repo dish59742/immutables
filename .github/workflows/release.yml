@@ -28,7 +28,7 @@ jobs:
         echo ::error::PR is not approved yet.
         exit 1
 
-    - name: Store release version for later use
+    - name: Store release version for later uses
       env:
         VERSION: ${{ steps.checkver.outputs.version }}
       run: |
