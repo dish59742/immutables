@@ -1,13 +1,13 @@
 name: Release
 
 on:
+  push:
+    branches:
+      - master
+      - ci
   pull_request:
     branches:
-      - "master"
-      - "ci"
-      - "[0-9]+.[0-9x]+*"
-    paths:
-      - "immutables/_version.py"
+      - master
 
 jobs:
   validate-release-request:
