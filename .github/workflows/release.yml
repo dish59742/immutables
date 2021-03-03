@@ -87,12 +87,6 @@ jobs:
       with:
         entrypoint: /github/workspace/.github/workflows/build-manylinux-wheels.sh
 
-    - name: Build Wheels (non-linux)
-      if: "!startsWith(matrix.os, 'ubuntu')"
-      run: |
-        make clean
-        python setup.py bdist_wheel
-
     - name: Test Wheels
       shell: bash
       if: |
