@@ -10,38 +10,8 @@ on:
       - master
 
 jobs:
-  validate-release-request:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Validate release PR
-      uses: edgedb/action-release/validate-pr@master
-      id: checkver
-      with:
-        github_token: ${{ secrets.RELEASE_BOT_GITHUB_TOKEN }}
-        version_file: immutables/_version.py
-        version_line_pattern: |
-          __version__\s*=\s*(?:['"])([[:PEP440:]])(?:['"])
-
-    - name: Stop if not approved
-      if: steps.checkver.outputs.approved == 'true'
-      run: |
-        echo ::error::PR is not approved yet.
-        exit 1
-
-    - name: Store release version for later uses
-      env:
-        VERSION: ${{ steps.checkver.outputs.version }}
-      run: |
-        mkdir -p dist/
-        echo "${VERSION}" > dist/VERSION
-
-    - uses: actions/upload-artifact@v1
-      with:
-        name: dist
-        path: dist/
-
+  
   build-sdist:
-    needs: validate-release-request
     runs-on: ubuntu-latest
 
     steps:
@@ -66,7 +36,6 @@ jobs:
         path: dist/
 
   build-wheels:
-    needs: validate-release-request
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
